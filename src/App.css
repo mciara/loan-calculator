@@ -17,6 +17,14 @@ input {
   font-size: large;
 }
 
+input:invalid {
+  border: 1px solid red;
+}
+
+input:valid {
+  border: 1px solid green;
+}
+
 label {
   display: inline-block;
   width: 180px;

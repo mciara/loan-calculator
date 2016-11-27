@@ -23,17 +23,17 @@ class LoanParameters extends Component {
 
   render() {
     return (
-      <div>
+      <form>
         <label>Loan amount
-          <input id="amount" type="text" onChange={this.handleAmountChange}/>
+          <input id="amount" required type="number" min="10000" max="100000000" pattern="\d+" onChange={this.handleAmountChange}/>
         </label>
         <label>Down payment years
-          <input id="years" type="text" onChange={this.handleTimeChange}/>
+          <input id="years" required type="number" min="1" max="40" step="1" pattern="\d+" onChange={this.handleTimeChange}/>
         </label>
         <label>Interest rate
-          <input id="rate" type="text" onChange={this.handleRateChange}/>
+          <input id="rate" required type="number" min="0" max="20" step="0.01" pattern="\d+" onChange={this.handleRateChange}/>
         </label>    
-      </div>
+      </form>
     );
   }
 }
