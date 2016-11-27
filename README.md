@@ -4,6 +4,14 @@ Loan Calculator
 React application calculating a cost of mortgage loan using Cicero Financial Solutions (CFS).
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+## Quick Start
+
+* clone this repo
+* navigate to the project's folder
+* run `npm install`
+* run `npm start`
+* open [http://localhost:3000](http://localhost:3000) to view it in the browser
+
 ## Available Scripts
 
 In the project directory, you can run:
