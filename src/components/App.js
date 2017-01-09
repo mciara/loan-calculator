@@ -1,63 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-
-class LoanParameters extends Component {
-  constructor() {
-    super();
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleRateChange = this.handleRateChange.bind(this);
-    this.handleTimeChange = this.handleTimeChange.bind(this);
-  }
-
-  handleAmountChange (event) {
-    this.props.onAmountChange(event.target.value);
-  }
-
-  handleRateChange (event) {
-    this.props.onRateChange(event.target.value);
-  }
-
-  handleTimeChange (event) {
-    this.props.onTimeChange(event.target.value);
-  }
-
-  render() {
-    return (
-      <form>
-        <label>Loan amount
-          <input id="amount" required type="number" min="10000" max="100000000" pattern="\d+" onChange={this.handleAmountChange}/>
-        </label>
-        <label>Down payment years
-          <input id="years" required type="number" min="1" max="40" step="1" pattern="\d+" onChange={this.handleTimeChange}/>
-        </label>
-        <label>Interest rate
-          <input id="rate" required type="number" min="0" max="20" step="0.01" pattern="\d+" onChange={this.handleRateChange}/>
-        </label>    
-      </form>
-    );
-  }
-}
-
-class CalculatedPayment extends Component {
-  render() {
-    if (this.props.payment !== null) {
-      return (
-        <div>
-          <h2>Monthly Payment</h2>
-          <h2>
-            {Math.round(this.props.payment)}
-          </h2>
-        </div>
-      );
-    } else {
-      return (<div/>);
-    }
-  }
-}
-
-CalculatedPayment.propTypes = {
-  payment: React.PropTypes.number
-};
+import CalculatedPayment from './CalculatedPayment.js'
+import LoanParameters from './LoanParameters.js'
+import './../App.css';
 
 class App extends Component {
   constructor() {
@@ -84,18 +28,18 @@ class App extends Component {
     }
 
     if (this.state.loanAmount != null && this.state.interestRate != null && this.state.paymentTime != null) {
-      fetch("https://cfs-ws-itera.cicero.no/cfp/6/ws/rest/calculator/calculateLoan?loanRaisingMonth=" + raisingMonth + 
-        "&loanRaisingYear=" + raisingYear + 
-        "&principalAmount=" + this.state.loanAmount + 
+      fetch("https://cfs-ws-itera.cicero.no/cfp/6/ws/rest/calculator/calculateLoan?loanRaisingMonth=" + raisingMonth +
+        "&loanRaisingYear=" + raisingYear +
+        "&principalAmount=" + this.state.loanAmount +
         "&annualNominalInterestRate=" + this.state.interestRate +
         "&totalNumberOfPayments="+ this.state.paymentTime * 12)
       .then((response) => response.json())
-      .then((responseJson) => { 
+      .then((responseJson) => {
         var payment = 0;
         if (responseJson.amortizationSchedule && responseJson.amortizationSchedule.length > 0) {
           payment = responseJson.amortizationSchedule[0].payment;
         }
-            
+
         this.setState({ payment });
       })
       .catch((error) => {
@@ -104,7 +48,7 @@ class App extends Component {
     } else {
       // TODO Please fill in all fields
     }
-  }  
+  }
 
   handleAmountChange(loanAmount) {
     this.setState({ loanAmount });
@@ -125,16 +69,16 @@ class App extends Component {
           <h1>Loan Calculator</h1>
         </div>
         <div>
-          <LoanParameters 
+          <LoanParameters
             onAmountChange={this.handleAmountChange}
             onRateChange={this.handleInterestRateChange}
-            onTimeChange={this.handlePaymentTimeChange} />          
+            onTimeChange={this.handlePaymentTimeChange} />
         </div>
         <div>
         <button onClick={this.handleCalculateClick}>Calculate</button>
         </div>
         <div className="App-content">
-          <CalculatedPayment payment={this.state.payment}/>          
+          <CalculatedPayment payment={this.state.payment}/>
         </div>
       </div>
     );
