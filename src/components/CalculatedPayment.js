@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class CalculatedPayment extends Component {
-  render() {
-    if (this.props.payment !== null) {
+var CalculatedPayment = props => {
+    if (props.payment !== null) {
       return (
         <div>
           <h2>Monthly Payment</h2>
           <h2>
-            {Math.round(this.props.payment)}
+            {Math.round(props.payment)}
           </h2>
         </div>
-      );
+      )
     } else {
-      return (<div/>);
+      return (<div/>)
     }
   }
-}
+
+export default CalculatedPayment
